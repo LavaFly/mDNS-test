@@ -11,7 +11,6 @@ const char *SSID = "yourSSID";
 const char *PASS = "yourPASSWORD";
 
 AsyncWebServer server(80);
-AsyncWebServer server2(81);
 
 void setup() {
     Serial.begin(9600);
@@ -38,8 +37,6 @@ void setup() {
     server.on("/", handleHTMLRequest);
     server.begin();
 
-    server2.on("/", handleHTMLRequest);
-    server2.begin();
 
 
     Serial.println("Setting up mDNS");
@@ -50,20 +47,11 @@ void setup() {
     MDNS.addService("http", "tcp", 80);
 
 
-    if(!MDNS2.begin("esp2")){
-        Serial.println("Error setting up mDNS responder!");
-        while(1){ delay(1000); }
-    }
-    Serial.println("mDNS responder started");
-
-    MDNS2.addService("http", "tcp", 81);
-
     Serial.println("Ending Setup");
 }
 
 void loop() {
     MDNS.update();
-    MDNS2.update();
 }
 
 void handleHTMLRequest(AsyncWebServerRequest *request){
