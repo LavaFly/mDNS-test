@@ -47,6 +47,13 @@ void setup() {
     MDNS.addService("http", "tcp", 80);
 
 
+    if(!MDNS.begin("esp2")){
+        Serial.println("Error setting up mDNS responder!");
+        while(1){ delay(1000); }
+    }
+    Serial.println("mDNS responder started");
+
+    MDNS.addService("http", "tcp", 80);
 
     Serial.println("Ending Setup");
 }
